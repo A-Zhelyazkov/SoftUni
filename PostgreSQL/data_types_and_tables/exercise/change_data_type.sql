@@ -1,0 +1,2 @@
+ALTER TABLE minions_info
+ALTER task TYPE VARCHAR(150)
