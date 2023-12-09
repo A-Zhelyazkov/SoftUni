@@ -1,18 +1,23 @@
-def find_ways_to_form_string(strings, target, current_solution=[]):
+def find_ways_to_form_string(strings, target, current_solution=[], used=set(), found_combinations=set()):
     if target == '':
-        # If the target string is empty, we found a valid solution
-        print(' '.join(current_solution))
+        current_combination = tuple(sorted(current_solution))
+        if current_combination not in found_combinations:
+            found_combinations.add(current_combination)
+            print(' '.join(current_solution))
         return
 
-    for string in strings:
-        # Check if the current string is a valid prefix for the target
-        if target.startswith(string):
-            # Recursively explore with the remaining part of the target
-            find_ways_to_form_string(strings, target[len(string):], current_solution + [string])
+    for i, string in enumerate(strings):
+        if i not in used and target.startswith(string):
+            # Mark the index as used
+            used.add(i)
 
-# Input
+            remaining_target = target[len(string):]
+            find_ways_to_form_string(strings, remaining_target, current_solution + [string], used, found_combinations)
+
+            used.remove(i)
+
+
 input_strings = input().split(", ")
 target_string = input().strip()
 
-# Output
 find_ways_to_form_string(input_strings, target_string)
